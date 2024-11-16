@@ -30,7 +30,7 @@ def main():
         result.save(image_buffer, format="PNG")
         image_buffer.seek(0)
 
-        files = {"file": (urllib.parse.quote(".".join(e.name.split(".")[:-1]) + ".png"), image_buffer, "image/png")}
+        files = {"file": (urllib.parse.quote(e.name), image_buffer, "image/png")}
 
         response = await run.io_bound(requests.post, "https://cdn.pyro.hackclub.app/upload", files=files)
         url = response.json().get("url")
@@ -51,4 +51,4 @@ def main():
         ui.upload(label="Upload Image", auto_upload=True, max_files=5, max_file_size=1024 * 1024 * 10, on_upload=upload_image).classes("max-w-full")
 
 
-ui.run(dark=True, reload=False, on_air=os.environ["NICEGUI_ON_AIR"])
+ui.run(title="AI Background Remover", dark=True, reload=False, on_air=os.environ["NICEGUI_ON_AIR"])
